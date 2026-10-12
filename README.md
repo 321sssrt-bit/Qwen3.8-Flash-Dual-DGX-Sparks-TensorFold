@@ -1,3 +1,23 @@
+> **This is a maintained fork of [MiaAI-Lab/Qwen3.8-Flash-Dual-DGX-Sparks-TensorFold](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Dual-DGX-Sparks-TensorFold).**
+>
+> The upstream recipe is excellent work by MiaAI-Lab, and all credit for it belongs to them. This fork exists only
+> because the upstream author blocked this account, so the fixes below could not be offered back as pull requests.
+> It is maintained reluctantly, not as a competing project.
+>
+> Base: upstream `6730319` (v1.1 + the #2 revert, with the v1.1 CUDA graph recovery kept). On top of that base this
+> fork restores two fixes that were authored here but are not currently applied upstream:
+>
+> - **Context admission** (`patches/0007-serving.patch`): a prompt plus its requested reply budget equal to the
+>   advertised context is admitted, with the speculative workspace kept outside that public window (previously
+>   upstream PR #2, since reverted). `tools/context_boundary.py` is restored alongside it.
+> - **Long-record transport ordering** (`patches/0011-record-notification-first.patch`): rank 0 publishes the
+>   wire notification before sending a long control-link payload, so a full send buffer can no longer deadlock
+>   the two ranks (previously upstream PR #4, closed unmerged).
+>
+> Upstream issue [#8](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Dual-DGX-Sparks-TensorFold/issues/8) (both ranks
+> exit under full-vocabulary sampling) is **not** fixed by these changes: we reproduced it with and without them.
+> See `CHANGELOG.md` for the measured evidence.
+
 <h1 align="center">Qwen3.8-Flash-Next on two DGX Sparks with TensorFold</h1>
 
 <p align="center">

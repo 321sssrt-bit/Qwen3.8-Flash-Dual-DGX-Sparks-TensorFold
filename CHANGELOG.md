@@ -3,6 +3,21 @@
 Every change to this recipe, newest first. Each release names the image it serves: `scripts/prepare.sh` pulls
 `ghcr.io/miaai-lab/qwen3.8-flash-dual-dgx-sparks-tensorfold` by the digest pinned in `scripts/config.sh`.
 
+## Unreleased (2026-10-12, maintained fork)
+
+This fork starts from upstream `6730319` and re-applies two fixes authored here that upstream does not currently ship:
+
+- Restored the context-admission fix in `patches/0007-serving.patch` (prompt + reply may fill the advertised
+  context; the speculative workspace stays outside it) and its regression, plus `tools/context_boundary.py`.
+  Previously upstream PR #2. Measured on this fork's base: the `C-W+1` and `C` budgets now return `OK` with a
+  natural stop (16/16 boundary checks), where the reverted upstream returned `PromptTooLong`.
+- Added `patches/0011-record-notification-first.patch`: publish the long-record wire notification before sending
+  its payload (previously upstream PR #4). The earlier `262143`-token input that timed out with `LinkWriteFailed`
+  after ~300 s completes with this ordering.
+
+Upstream issue #8 (both ranks exit under full-vocabulary sampling, `top_p 1.0 / top_k -1`) was reproduced on this
+base both with and without the admission change, so it is independent of these fixes and remains open here.
+
 ## Unreleased (2026-10-11)
 
 - Reverted the context-admission change in
