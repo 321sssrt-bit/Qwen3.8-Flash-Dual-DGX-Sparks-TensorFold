@@ -23,6 +23,8 @@
 > so the Flash-Next 38B recipe here is maintained as a side effort rather than my primary workload.
 
 
+*[中文说明](README.zh-CN.md)*
+
 ## Documentation
 
 All setup, parameters, performance figures, and deployment details are upstream's — see the
