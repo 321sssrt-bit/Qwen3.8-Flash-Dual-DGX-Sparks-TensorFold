@@ -18,6 +18,10 @@
 > exit under full-vocabulary sampling) is **not** fixed by these changes: we reproduced it with and without them.
 > See `CHANGELOG.md` for the measured evidence.
 
+> **Maintenance.** I intend to keep this fork working: further bugs reported against it are welcome and I will fix
+> what I can, including mistakes in my own changes. My own daily driver is the 27B-class Qwen (`Qwen3.8-27B`) setup,
+> so the Flash-Next 38B recipe here is maintained as a side effort rather than my primary workload.
+
 <h1 align="center">Qwen3.8-Flash-Next on two DGX Sparks with TensorFold</h1>
 
 <p align="center">
